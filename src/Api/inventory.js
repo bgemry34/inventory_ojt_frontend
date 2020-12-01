@@ -12,27 +12,27 @@ export const fetchItems = async () => {
 }
 
 
-export const createCompany = async (name) => {
+export const createItem = async (name, company, department, qty, price, depre_price, purchase_order_no, model) => {
     try{
-        const data = await axios.post(`${url}/inventory-system-944c6/us-central1/app/api/company/create`, {name});
+        const data = await axios.post(`${url}/inventory-system-944c6/us-central1/app/api/items/create`, {name, company, department, qty, price, depre_price, purchase_order_no, model });
         return data;
     }catch(error){
         return error.response
     }
 }
 
-export const updateCompany = async (id, name) => {
+export const updateItem = async (form) => {
     try{
-        const data = await axios.put(`${url}/inventory-system-944c6/us-central1/app/api/company/update/`+id, {name});
+        const {id, name, company, department, qty, price, depre_price, purchase_order_no, model} = form;
+        const data = await axios.put(`${url}/inventory-system-944c6/us-central1/app/api/items/update/`+id, {name, company, department, qty, price, depre_price, purchase_order_no, model });
         return data;
     }catch(error){
         return error.response
     }
 }
-
-export const deleteCompany = async (id) => {
+export const deleteItem = async (id) => {
     try{
-        const data = await axios.delete(`${url}/inventory-system-944c6/us-central1/app/api/company/delete/`+id);
+        const data = await axios.delete(`${url}/inventory-system-944c6/us-central1/app/api/items/delete/`+id);
         return data;
     }catch(error){
         return error.response

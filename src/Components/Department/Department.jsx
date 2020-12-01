@@ -30,7 +30,6 @@ function Department() {
             const {data} = await fetchDepartment();
             setDepartments(data);
             console.log(data);
-            
         }
 
         fetchApi();
@@ -141,7 +140,7 @@ function Department() {
             </DialogActions>
           </form>
         </Dialog>
-    )
+    );
 
     return (
         <div>

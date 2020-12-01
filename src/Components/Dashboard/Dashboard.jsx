@@ -10,13 +10,20 @@ import { Container,
      TableHead,
      TableRow,
      TableBody } from '@material-ui/core';
-import React from 'react';
+import React, {useState} from 'react';
 import styles from './Dashboard.module.css';
 import AccountTreeIcon from '@material-ui/icons/AccountTree';
 import PeopleIcon from '@material-ui/icons/People';
 import AppsIcon from '@material-ui/icons/Apps';
 
 const Dashboard = () => {
+
+    const [counts, setCounts] = useState({
+        items:'---',
+        department:'---',
+        users:'---',
+    });
+    
     return (
         <div>
         <CssBaseline />
