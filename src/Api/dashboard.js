@@ -19,3 +19,12 @@ export const getDepartmentCount = async () => {
         return error.response
     }
 }
+
+export const getUsersCount = async () => {
+    try{
+        const {data} = await axios.get(`${url}/inventory-system-944c6/us-central1/app/api/users/count`);
+        return data;
+    }catch(error){
+        return error.response
+    }
+}

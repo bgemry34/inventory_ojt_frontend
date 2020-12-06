@@ -10,19 +10,44 @@ import { Container,
      TableHead,
      TableRow,
      TableBody } from '@material-ui/core';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from './Dashboard.module.css';
 import AccountTreeIcon from '@material-ui/icons/AccountTree';
 import PeopleIcon from '@material-ui/icons/People';
 import AppsIcon from '@material-ui/icons/Apps';
+import {getInventoryCount, getDepartmentCount, getUsersCount} from './../../Api/dashboard';
+import {fetchItems} from './../../Api/inventory'
+import {getUsers} from './../../Api/users'
 
 const Dashboard = () => {
 
+    useEffect(()=>{
+        const getCounts = async () =>{
+            const ItemCount = await getInventoryCount();
+            const DepCount = await getDepartmentCount();
+            const UsersCount = await getUsersCount();
+            const getItems = await fetchItems();
+            const resUsers = await getUsers();
+            setCounts({
+                items:ItemCount.data,
+                departments:DepCount.data,
+                users:UsersCount.count
+            });
+            setItems(getItems.data.reverse()[0])
+            setUsers(resUsers.data.users.reverse()[0]);
+        }
+        
+        getCounts();
+    }, []);
+
     const [counts, setCounts] = useState({
         items:'---',
-        department:'---',
+        departments:'---',
         users:'---',
     });
+
+    const [items, setItems] = useState({});
+    const [users, setUsers] = useState({});
     
     return (
         <div>
@@ -61,7 +86,7 @@ const Dashboard = () => {
                                         </Typography>
                                         <Divider/>
                                         <Typography variant={'h5'} className={styles.ContentValue}>
-                                            1000
+                                            {counts.items}
                                         </Typography>
                                     </div>
                                 </Paper>
@@ -87,7 +112,7 @@ const Dashboard = () => {
                                         </Typography>
                                         <Divider/>
                                         <Typography variant={'h5'} className={styles.ContentValue}>
-                                            4
+                                             {counts.departments}
                                         </Typography>
                                     </div>
                                 </Paper>
@@ -113,7 +138,7 @@ const Dashboard = () => {
                                         </Typography>
                                         <Divider/>
                                         <Typography variant={'h5'} className={styles.ContentValue}>
-                                            1000
+                                        {counts.users}
                                         </Typography>
                                     </div>
                                 </Paper>
@@ -131,16 +156,14 @@ const Dashboard = () => {
                             <TableRow>
                                 <TableCell>Name</TableCell>
                                 <TableCell align="right">Model</TableCell>
-                                <TableCell align="right">Serial No.</TableCell>
                                 <TableCell align="right">Qty.</TableCell>
                             </TableRow>
                             </TableHead>
                             <TableBody>
                             <TableRow>
-                                <TableCell>Name</TableCell>
-                                <TableCell align="right">Model</TableCell>
-                                <TableCell align="right">Serial No.</TableCell>
-                                <TableCell align="right">Qty.</TableCell>
+                                <TableCell>{items.name}</TableCell>
+                                <TableCell align="right">{items.model}</TableCell>
+                                <TableCell align="right">{items.qty}</TableCell>
                                 </TableRow>
                             </TableBody>
                         </Table>
@@ -153,14 +176,14 @@ const Dashboard = () => {
                             <TableHead>
                             <TableRow>
                                 <TableCell>Name</TableCell>
-                                <TableCell>Email</TableCell>
+                                <TableCell>Created Date</TableCell>
                                
                             </TableRow>
                             </TableHead>
                             <TableBody>
                             <TableRow>
-                                <TableCell>Name</TableCell>
-                                <TableCell >Email</TableCell>
+                                <TableCell>{users.email}</TableCell>
+                                <TableCell >{users.create_date}</TableCell>
                             </TableRow>
                             </TableBody>
                         </Table>

@@ -12,6 +12,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import { mainListItems, secondaryListItems } from './ListItems';
 import {useStyles} from './Nav.style'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import { useHistory } from 'react-router';
 
 
 // function Copyright() {
@@ -30,12 +31,18 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 export default function Nav(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
+  const history = useHistory()
 
   const handleDrawer = () => {
     setOpen(!open);
   };
 
   //const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+
+  const logout = () => {
+    sessionStorage.clear();
+    history.push('/');
+  }
 
   return (
     <div className={classes.root}>
@@ -54,7 +61,7 @@ export default function Nav(props) {
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             Dashboard
           </Typography>
-          <IconButton color="inherit">
+          <IconButton onClick={logout} color="inherit">
             <ExitToAppIcon />
           </IconButton>
         </Toolbar>

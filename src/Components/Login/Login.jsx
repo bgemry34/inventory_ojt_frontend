@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,20 +12,10 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { NavLink } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import {loginUser} from './../../Api/users';
+import { Alert } from '@material-ui/lab';
 
-// function Copyright() {
-//   return (
-//     <Typography variant="body2" color="textSecondary" align="center">
-//       {'Copyright © '}
-//       <Link color="inherit" href="https://material-ui.com/">
-//         Your Website
-//       </Link>{' '}
-//       {new Date().getFullYear()}
-//       {'.'}
-//     </Typography>
-//   );
-// }
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -49,6 +39,36 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn() {
   const classes = useStyles();
+  const history = useHistory();
+
+  const [form, setForm] = useState({
+    email:'',
+    password:''
+  });
+
+  const [alert, setAlert] = useState('');
+
+  const handleChange = (e) =>{
+    setForm({...form, [e.target.name]:e.target.value});
+  }
+
+  const login = async (e) =>{
+    e.preventDefault();
+    setAlert('');
+    try{
+      const res = await loginUser(form);
+      if(res.status==200){
+        sessionStorage.setItem('userToken',JSON.stringify(res.data.idToken));
+        history.push('/dashboard');
+      }else{
+        setAlert((
+          <Alert severity="error">Incorrect Email or Password</Alert>
+        ))
+      }
+    }catch(e){
+      console.log(e);
+    }
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -60,7 +80,9 @@ export default function SignIn() {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} noValidate>
+        
+        <form onSubmit={login} className={classes.form} noValidate>
+          {alert}
           <TextField
             variant="outlined"
             margin="normal"
@@ -69,6 +91,8 @@ export default function SignIn() {
             id="email"
             label="Email Address"
             name="email"
+            value={form.email}
+            onChange={handleChange}
             autoComplete="email"
             autoFocus
           />
@@ -78,37 +102,27 @@ export default function SignIn() {
             required
             fullWidth
             name="password"
+            value={form.password}
+            onChange={handleChange}
             label="Password"
             type="password"
             id="password"
             autoComplete="current-password"
           />
+
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
           />
-          <NavLink 
-            to="/dashboard"
-            exact>          
-            <Button
+          <Button
               fullWidth
               variant="contained"
               color="primary"
+              type="submit"
               className={classes.submit}
             >
               Sign In
             </Button>
-          </NavLink>
-
-          <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
-            <Grid item>
-            </Grid>
-          </Grid>
         </form>
       </div>
       {/* <Box mt={8}>
