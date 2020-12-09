@@ -7,6 +7,7 @@ import Login from './Components/Login/Login'
 import Inventory from './Components/Inventory/Inventory'
 import Company from './Components/Company/Company'
 import Department from './Components/Department/Department'
+import Users from './Components/Users/Users'
 
 import Dashboard from './Components/Dashboard/Dashboard'
 
@@ -37,6 +38,11 @@ function App() {
                   <Route path="/department" exact >
                     <Nav>
                       <Department />
+                    </Nav>
+                  </Route>
+                  <Route path="/users" exact >
+                    <Nav>
+                      <Users />
                     </Nav>
                   </Route>
                 </Switch>

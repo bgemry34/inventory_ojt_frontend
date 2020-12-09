@@ -25,26 +25,35 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import SaveIcon from '@material-ui/icons/Save';
 
-import {fetchItems, createItem, deleteItem, updateItem} from './../../Api/inventory';
+import {fetchItems, createItem, deleteItem, updateItem, searchItems} from './../../Api/inventory';
 import {fetchDepartment} from './../../Api/department';
 import {fetchCompany} from './../../Api/company';
-
-
+import {debounce} from 'lodash'
 
 function Inventory() {
 
     useEffect(()=>{
         const fetchApi = async () => {
-            const itemData =  await fetchItems();
-            const departmentData = await fetchDepartment();
-            const companyData = await fetchCompany();
+            try{
+                const itemData =  await fetchItems();
+                const departmentData = await fetchDepartment();
+                const companyData = await fetchCompany();
 
-            setItems(itemData.data);
-            setCompanies(companyData.data);
-            setDepartments(departmentData.data);
+                setItems(itemData.data);
+                setCompanies(companyData.data);
+                setDepartments(departmentData.data);
+            }catch(e){
+                console.log(e);
+                setItems([]);
+                setCompanies([]);
+                setDepartments([]);
+            }
+            
         }
         fetchApi();
     },[]);
+
+    
 
     const [items, setItems] = useState([]);
     const [companies, setCompanies] = useState([]);
@@ -53,6 +62,28 @@ function Inventory() {
     const [confirmDeleteModal, setConfirmDeleteModal] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
+    const [searchItem, setSearchItem] = useState('');
+    const [printModal, setPrintModal] = useState(false);
+
+    useEffect(()=>{
+        let isCancelled = false;
+        const fetchSearch = async () =>{
+          try{
+            let items = searchItem.trim() !== '' ? await searchItems(searchItem) : await fetchItems();
+            console.log(items)
+            if(!isCancelled){
+              setItems(items.data);
+            }
+          }catch(e){
+              console.log(e)
+          }
+        }
+        if(searchItem.trim() !== '')
+        fetchSearch();
+        else
+
+        return ()=>isCancelled = true
+      }, [searchItem])
     
 
     const [form, setForm] = useState({
@@ -92,12 +123,13 @@ function Inventory() {
             const res = !isEdit ? await createItem(
                 name, company, department, qty, price, depre_price, purchase_order_no, model
             ) : await updateItem(form);
-            if(res.status==200){
+            if(res.status===200){
                 setForm({...form, onProcess:false});
                 if(!isEdit)
                     setItems([...items, res.data.data]);
                 else
                     setItems(items.map(item=>{
+                    // eslint-disable-next-line
                     return item.id==form.id ? form : item;
                 }));
                 clearForm();
@@ -130,7 +162,7 @@ function Inventory() {
     const removeItem = async () => {
        try{
             const res = await deleteItem(form.id);
-            if(res.status == 200){
+            if(res.status === 200){
                 setItems(items.filter(item=>item.id!==form.id));
                 setConfirmDeleteModal(false);
                 setForm({
@@ -170,7 +202,12 @@ function Inventory() {
 
     const handleChange = (e) =>{
         setForm({...form, [e.target.name]:e.target.value});
-    }
+    };
+
+    const searchChange = debounce((text) =>{
+        console.log(text);
+        setSearchItem(text)
+    }, 1500)
 
       const addDialog = (
         <Dialog
@@ -524,6 +561,60 @@ function Inventory() {
             </Button>
             </DialogActions>
         </Dialog>
+    );
+
+    const printItemsModal = (
+        <Dialog
+          open={printModal}
+          onClose={()=>setPrintModal(false)}
+          scroll="body"
+          fullWidth
+        >
+          <form method="post">
+            <DialogTitle className="mt-2">Print: Generate PDF</DialogTitle>
+            <DialogContent>
+                <Container>
+                    <FormControl margin="normal" fullWidth>
+                        <TextField
+                        select
+                        margin="normal"
+                        label="Department"
+                        name="department"
+                        value={form.department}
+                        onChange={handleChange}
+                        required
+                        fullWidth
+                        >
+                            <MenuItem value={' '}>
+                                {'--Select Department--'}
+                            </MenuItem>
+                            {departments.length >0  && departments.map(department=>(
+                            <MenuItem key={department.id} value={department.name}>
+                                {department.name}
+                            </MenuItem>
+                            ))}
+                        </TextField>
+                    </FormControl>
+                </Container>
+            </DialogContent>
+            <DialogActions>
+                <Container>
+                        <Button
+                        id='addBtn'
+                        variant="contained"
+                        color="primary"
+                        style={{float:'right', marginRight:'15px', marginBottom: '5px'}}
+                        endIcon={<AddIcon />}
+                        disabled={form.onProcess}
+                        size="large"
+                        type="submit"
+                        >
+                            Print
+                        </Button> 
+                </Container>
+            </DialogActions>
+          </form>
+        </Dialog>
     )
 
     return (
@@ -531,7 +622,10 @@ function Inventory() {
            <Container>
            <Grid container style={{marginTop:'20px'}}>
                 <Grid item xs={5}>
-                        <TextField label="Search..." />
+                        <TextField
+                        name="search"  
+                        onChange={(e)=>searchChange(e.target.value)}
+                        label="Search..." />
                 </Grid>
                 <Grid item xs={7}>
                     <div style={{float:'right', marginTop: '15px'}}>
@@ -539,6 +633,9 @@ function Inventory() {
                         variant="contained"
                         color="primary"
                         endIcon={<PrintIcon />}
+                        onClick={()=>{
+                            setPrintModal(true);
+                        }}
                     >
                         Print
                     </Button>
@@ -617,6 +714,7 @@ function Inventory() {
            {addDialog}
            {confirmDelete}
            {showDialog}
+           {printItemsModal}
         </div>
     )
 }

@@ -2,15 +2,10 @@ import React from 'react';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import ListSubheader from '@material-ui/core/ListSubheader';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import PeopleIcon from '@material-ui/icons/People';
-import AssignmentIcon from '@material-ui/icons/Assignment';
 import StorageIcon from '@material-ui/icons/Storage';
 import BusinessIcon from '@material-ui/icons/Business';
-import AccountTreeIcon from '@material-ui/icons/AccountTree';
-import DeleteIcon from '@material-ui/icons/Delete';
-import { Typography } from '@material-ui/core';
 import {NavLink} from 'react-router-dom'
 
 export const mainListItems = (
@@ -74,24 +69,27 @@ export const mainListItems = (
       <ListItemText primary="Department" />
     </ListItem>
 
-    <ListItem button>
-      <ListItemIcon>
+    <ListItem button
+      component={NavLink}
+      to="/users"
+      exact
+      activeStyle={{
+        backgroundColor:'#ecf0f1'
+      }}
+      >
+        <ListItemIcon>
         <PeopleIcon />
       </ListItemIcon>
       <ListItemText primary="Users" />
     </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <DeleteIcon />
-      </ListItemIcon>
-      <ListItemText primary="Trash" />
-    </ListItem>
+
+
   </div>
 );
 
 export const secondaryListItems = (
   <div>
-    <ListSubheader inset>Saved reports</ListSubheader>
+    {/* <ListSubheader inset>Saved reports</ListSubheader>
     <ListItem button>
       <ListItemIcon>
         <AssignmentIcon />
@@ -116,6 +114,6 @@ export const secondaryListItems = (
         <AssignmentIcon />
       </ListItemIcon>
       <ListItemText primary="Receivee History" />
-    </ListItem>
+    </ListItem> */}
   </div>
 );

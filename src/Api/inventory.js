@@ -11,6 +11,15 @@ export const fetchItems = async () => {
     }
 }
 
+export const searchItems = async (name) => {
+    try{
+        const {data} = await axios.get(`${url}/inventory-system-944c6/us-central1/app/api/items/search/`+name);
+        return data;
+    }catch(error){
+        return error.response
+    }
+}
+
 
 export const createItem = async (name, company, department, qty, price, depre_price, purchase_order_no, model) => {
     try{
@@ -30,6 +39,7 @@ export const updateItem = async (form) => {
         return error.response
     }
 }
+
 export const deleteItem = async (id) => {
     try{
         const data = await axios.delete(`${url}/inventory-system-944c6/us-central1/app/api/items/delete/`+id);

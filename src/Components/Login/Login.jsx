@@ -5,8 +5,6 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
 // import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
@@ -57,7 +55,7 @@ export default function SignIn() {
     setAlert('');
     try{
       const res = await loginUser(form);
-      if(res.status==200){
+      if(res.status===200){
         sessionStorage.setItem('userToken',JSON.stringify(res.data.idToken));
         history.push('/dashboard');
       }else{
@@ -81,25 +79,24 @@ export default function SignIn() {
           Sign in
         </Typography>
         
-        <form onSubmit={login} className={classes.form} noValidate>
+        <form onSubmit={login} className={classes.form}>
           {alert}
           <TextField
             variant="outlined"
             margin="normal"
-            required
             fullWidth
             id="email"
             label="Email Address"
             name="email"
             value={form.email}
             onChange={handleChange}
+            required
             autoComplete="email"
             autoFocus
           />
           <TextField
             variant="outlined"
             margin="normal"
-            required
             fullWidth
             name="password"
             value={form.password}
@@ -107,6 +104,7 @@ export default function SignIn() {
             label="Password"
             type="password"
             id="password"
+            required
             autoComplete="current-password"
           />
 
@@ -114,7 +112,7 @@ export default function SignIn() {
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
           />
-          <Button
+            <Button
               fullWidth
               variant="contained"
               color="primary"
