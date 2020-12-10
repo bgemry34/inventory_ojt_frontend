@@ -1,10 +1,10 @@
 import axios from 'axios'
 
-const url = 'http://localhost:5001';
+const url = 'https://us-central1-inventory-system-944c6.cloudfunctions.net';
 
 export const fetchItems = async () => {
     try{
-        const {data} = await axios.get(`${url}/inventory-system-944c6/us-central1/app/api/items/read`);
+        const {data} = await axios.get(`${url}/app/api/items/read`);
         return data;
     }catch(error){
         return error.response
@@ -13,7 +13,7 @@ export const fetchItems = async () => {
 
 export const searchItems = async (name) => {
     try{
-        const {data} = await axios.get(`${url}/inventory-system-944c6/us-central1/app/api/items/search/`+name);
+        const {data} = await axios.get(`${url}/app/api/items/search/`+name);
         return data;
     }catch(error){
         return error.response
@@ -23,7 +23,7 @@ export const searchItems = async (name) => {
 
 export const createItem = async (name, company, department, qty, price, depre_price, purchase_order_no, model) => {
     try{
-        const data = await axios.post(`${url}/inventory-system-944c6/us-central1/app/api/items/create`, {name, company, department, qty, price, depre_price, purchase_order_no, model });
+        const data = await axios.post(`${url}/app/api/items/create`, {name, company, department, qty, price, depre_price, purchase_order_no, model });
         return data;
     }catch(error){
         return error.response
@@ -33,7 +33,7 @@ export const createItem = async (name, company, department, qty, price, depre_pr
 export const updateItem = async (form) => {
     try{
         const {id, name, company, department, qty, price, depre_price, purchase_order_no, model} = form;
-        const data = await axios.put(`${url}/inventory-system-944c6/us-central1/app/api/items/update/`+id, {name, company, department, qty, price, depre_price, purchase_order_no, model });
+        const data = await axios.put(`${url}/app/api/items/update/`+id, {name, company, department, qty, price, depre_price, purchase_order_no, model });
         return data;
     }catch(error){
         return error.response
@@ -42,7 +42,7 @@ export const updateItem = async (form) => {
 
 export const deleteItem = async (id) => {
     try{
-        const data = await axios.delete(`${url}/inventory-system-944c6/us-central1/app/api/items/delete/`+id);
+        const data = await axios.delete(`${url}/app/api/items/delete/`+id);
         return data;
     }catch(error){
         return error.response

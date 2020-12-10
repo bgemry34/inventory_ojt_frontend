@@ -1,10 +1,10 @@
 import axios from 'axios'
 
-const url = 'http://localhost:5001';
+const url = 'https://us-central1-inventory-system-944c6.cloudfunctions.net';
 
 export const getInventoryCount = async () => {
     try{
-        const {data} = await axios.get(`${url}/inventory-system-944c6/us-central1/app/api/items/count`);
+        const {data} = await axios.get(`${url}/app/api/items/count`);
         return data;
     }catch(error){
         return error.response
@@ -13,7 +13,7 @@ export const getInventoryCount = async () => {
 
 export const getDepartmentCount = async () => {
     try{
-        const {data} = await axios.get(`${url}/inventory-system-944c6/us-central1/app/api/department/count`);
+        const {data} = await axios.get(`${url}/app/api/department/count`);
         return data;
     }catch(error){
         return error.response
@@ -22,7 +22,7 @@ export const getDepartmentCount = async () => {
 
 export const getUsersCount = async () => {
     try{
-        const {data} = await axios.get(`${url}/inventory-system-944c6/us-central1/app/api/users/count`);
+        const {data} = await axios.get(`${url}/app/api/users/count`);
         return data;
     }catch(error){
         return error.response

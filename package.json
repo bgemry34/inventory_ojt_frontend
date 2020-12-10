@@ -19,6 +19,7 @@
     "recharts": "^1.8.5",
     "web-vitals": "^0.2.4"
   },
+  "homepage": "https://bgemry34.github.io/inventory_ojt_frontend/",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

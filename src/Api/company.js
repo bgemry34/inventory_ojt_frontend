@@ -1,10 +1,10 @@
 import axios from 'axios'
 
-const url = 'http://localhost:5001';
+const url = 'https://us-central1-inventory-system-944c6.cloudfunctions.net';
 
 export const fetchCompany = async () => {
     try{
-        const {data} = await axios.get(`${url}/inventory-system-944c6/us-central1/app/api/company/read`);
+        const {data} = await axios.get(`${url}/app/api/company/read`);
         return data;
     }catch(error){
         return error.response
@@ -14,7 +14,7 @@ export const fetchCompany = async () => {
 
 export const createCompany = async (name) => {
     try{
-        const data = await axios.post(`${url}/inventory-system-944c6/us-central1/app/api/company/create`, {name});
+        const data = await axios.post(`${url}/app/api/company/create`, {name});
         return data;
     }catch(error){
         return error.response
@@ -23,7 +23,7 @@ export const createCompany = async (name) => {
 
 export const updateCompany = async (id, name) => {
     try{
-        const data = await axios.put(`${url}/inventory-system-944c6/us-central1/app/api/company/update/`+id, {name});
+        const data = await axios.put(`${url}/app/api/company/update/`+id, {name});
         return data;
     }catch(error){
         return error.response
@@ -32,7 +32,7 @@ export const updateCompany = async (id, name) => {
 
 export const deleteCompany = async (id) => {
     try{
-        const data = await axios.delete(`${url}/inventory-system-944c6/us-central1/app/api/company/delete/`+id);
+        const data = await axios.delete(`${url}/app/api/company/delete/`+id);
         return data;
     }catch(error){
         return error.response

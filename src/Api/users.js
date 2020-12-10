@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const url = 'https://www.googleapis.com';
 
-const url_1 = 'http://localhost:5001';
+const url_1 = 'https://us-central1-inventory-system-944c6.cloudfunctions.net';
 
 export const registerUser = async (form) => {
     const {email, password} = form
@@ -36,7 +36,7 @@ export const authUser = async (idToken) => {
 
 export const getUsers = async () => {
     try{
-        const data = await axios.get(`${url_1}/inventory-system-944c6/us-central1/app/api/users/read`);
+        const data = await axios.get(`${url_1}/app/api/users/read`);
         return data;
     }catch(error){
         return error.response
