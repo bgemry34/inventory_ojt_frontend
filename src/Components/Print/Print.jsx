@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Document, Page, PDFViewer, Text, View, StyleSheet } from '@react-pdf/renderer';
+import React from 'react';
+import { Document, Page, PDFViewer, Text, View } from '@react-pdf/renderer';
  
 function MyApp() {
   return (
