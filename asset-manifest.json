@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/inventory_ojt_frontend/static/css/main.8181466b.chunk.css",
+    "main.js": "/inventory_ojt_frontend/static/js/main.811c0203.chunk.js",
+    "main.js.map": "/inventory_ojt_frontend/static/js/main.811c0203.chunk.js.map",
+    "runtime-main.js": "/inventory_ojt_frontend/static/js/runtime-main.3f3f87e0.js",
+    "runtime-main.js.map": "/inventory_ojt_frontend/static/js/runtime-main.3f3f87e0.js.map",
+    "static/js/2.7ac3443e.chunk.js": "/inventory_ojt_frontend/static/js/2.7ac3443e.chunk.js",
+    "static/js/2.7ac3443e.chunk.js.map": "/inventory_ojt_frontend/static/js/2.7ac3443e.chunk.js.map",
+    "index.html": "/inventory_ojt_frontend/index.html",
+    "static/css/main.8181466b.chunk.css.map": "/inventory_ojt_frontend/static/css/main.8181466b.chunk.css.map",
+    "static/js/2.7ac3443e.chunk.js.LICENSE.txt": "/inventory_ojt_frontend/static/js/2.7ac3443e.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.3f3f87e0.js",
+    "static/js/2.7ac3443e.chunk.js",
+    "static/css/main.8181466b.chunk.css",
+    "static/js/main.811c0203.chunk.js"
+  ]
+}
